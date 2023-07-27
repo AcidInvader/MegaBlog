@@ -1,4 +1,4 @@
-from typing import TypeVar
+from typing import TypeVar, Optional
 
 from django.contrib.auth.models import AbstractUser
 from django.core import signing
@@ -33,3 +33,15 @@ class User(AbstractUser):
     @property
     def confirmation_key(self) -> str:
         return signing.dumps(obj=self.pk)
+    
+    @classmethod
+    def get_user(cls, key: str) -> Optional['User']:
+        max_age = 600
+        try:
+            user_id = signing.loads(key, max_age=max_age)
+            user = cls.objects.get(id=user_id)
+        except(signing.SignatureExpired, signing.BadSignature, cls.DoesNotExist):
+            return None 
+
+        return user
+

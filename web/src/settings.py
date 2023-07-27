@@ -55,7 +55,7 @@ INSTALLED_APPS = [
 
 THIRD_PARTY_APPS = [
     'rest_framework_simplejwt.token_blacklist',
-    'defender',
+    # 'defender',
     'rest_framework',
     'drf_spectacular',
     'corsheaders',
@@ -83,7 +83,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'defender.middleware.FailedLoginMiddleware',
+    # 'defender.middleware.FailedLoginMiddleware',
     'django.middleware.locale.LocaleMiddleware',
 ]
 
@@ -95,6 +95,15 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    # 'DEFAULT_THROTTLE_CLASSES': (
+    #     'rest_framework.throttling.AnonRateThrottle',
+    #     'rest_framework.throttling.UserRateThrottling'
+    # ),
+    # 'DEFAULT_THROTTLE_RATES': {
+    #     'anon': '500/minute',
+    #     'user': '1000/minute',
+    #     'logingAttempts': '3/hr',
+    # }
 }
 
 
@@ -297,3 +306,15 @@ if (SENTRY_DSN := os.environ.get('SENTRY_DSN')) and ENABLE_SENTRY:
         # django.contrib.auth) you may enable sending PII data.
         send_default_pii=True,
     )
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+# EMAIL_HOST_USER = 'testdjango@inbox.ru'
+# EMAIL_HOST_PASSWORD = 'xSZEcRsztktYsv1Km7QT'
+# EMAIL_USE_SSL = False
+# DOMAIN_NAME = 'localhost'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# setting for reCAPTCHA google
+RECAPTCHA_PUBLIC_KEY = '6LeZGREnAAAAAA0buwN2Gc5oEJqfCFolhf4rHYr4'
+DRF_RECAPTCHA_SECRET_KEY = '6LeZGREnAAAAAEbheX_I6wDv5q6QeuyR5i3RhGXI'

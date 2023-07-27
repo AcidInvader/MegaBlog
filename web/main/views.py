@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING
+from django.contrib.auth import get_user_model
 
 from django.conf import settings
 from rest_framework.authentication import SessionAuthentication
@@ -8,10 +9,15 @@ from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from blog.models import Article
+
 from .serializers import SetTimeZoneSerializer
 
 if TYPE_CHECKING:
     from rest_framework.request import Request
+    from main.models import UserType
+
+User: 'UserType' = get_user_model()
 
 
 class TemplateAPIView(APIView):
@@ -25,6 +31,8 @@ class TemplateAPIView(APIView):
     template_name: str = ''
 
     def get(self, request: 'Request', *args, **kwargs):
+        # user = User.objects.get(request)
+    
         return Response()
 
 
