@@ -23,7 +23,7 @@ def send_information_email(
     subject: str,
     template_name: str,
     context: dict,
-    to_email: list[str] | str,
+    to_email: list[str],
     letter_language: str = 'en',
     **kwargs: Optional[Any],
 ) -> bool:

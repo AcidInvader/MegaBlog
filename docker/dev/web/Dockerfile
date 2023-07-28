@@ -32,7 +32,7 @@ RUN chmod +x /*.sh && \
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8888"]
 
 EXPOSE 8000
 

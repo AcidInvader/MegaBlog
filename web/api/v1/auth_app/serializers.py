@@ -2,8 +2,16 @@ from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.password_validation import validate_password
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
+from datetime import timedelta
+from django.utils.timezone import now
 
 from api.v1.auth_app.services import AuthAppService
+
+from drf_recaptcha.fields import ReCaptchaV2Field, ReCaptchaV3Field
+from captcha.widgets import ReCaptchaV2Checkbox
+from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+
 
 User = get_user_model()
 
@@ -15,6 +23,8 @@ error_messages = {
     'password_not_match': _('The two password fields did not match'),
 }
 
+def get_activation_key_exparation_data():
+    return now() + timedelta(hours=48)
 
 class UserSignUpSerializer(serializers.Serializer):
     first_name = serializers.CharField(min_length=2, max_length=100)
@@ -22,19 +32,28 @@ class UserSignUpSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password_1 = serializers.CharField(write_only=True, min_length=8)
     password_2 = serializers.CharField(write_only=True, min_length=8)
+    # captcha = ReCaptchaV2Field()
+    
 
-    def validate_password1(self, password: str):
+    def validate_first_name(self, first_name: str):
+        print("first_name", first_name)
+        return first_name
+
+    def validate_password_1(self, password: str):
         validate_password(password)
+        print("password", password)
         return password
 
     def validate_email(self, email: str) -> str:
         if AuthAppService.is_user_exist(email):
             raise serializers.ValidationError(_('User is already registered with this e-mail address.'))
+        print("email", email)
         return email
 
     def validate(self, data: dict):
         if data['password_1'] != data['password_2']:
             raise serializers.ValidationError({'password_2': error_messages['password_not_match']})
+        print("validate", data)
         return data
 
 
@@ -72,6 +91,11 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
     password_2 = serializers.CharField(min_length=8, max_length=64)
     uid = serializers.CharField()
     token = serializers.CharField()
+
+    def validate_password_1(self, password: str):
+        validate_password(password)
+        
+        return password
 
 
 class VerifyEmailSerializer(serializers.Serializer):

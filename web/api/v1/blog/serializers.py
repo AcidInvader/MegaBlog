@@ -5,43 +5,26 @@ from blog.models import Article, Category, Comment
 
 User = get_user_model()
 
-
-class UserSerializer(serializers.ModelSerializer):
+class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'full_name', 'email')
+        fields = ['id', 'first_name']
 
 
-class CommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comment
-        fields = ('id', 'user', 'author', 'content', 'updated')
+class CategorySerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=200)
+    slug = serializers.SlugField(max_length=200, allow_unicode=True)
 
-
-class CategorySerializer(serializers.ModelSerializer):
-    slug = serializers.SlugField(read_only=True, allow_unicode=True)
-
-    class Meta:
-        model = Category
-        fields = ('id', 'name', 'slug')
-
-
-class ArticleSerializer(serializers.ModelSerializer):
-    url = serializers.CharField(source='get_absolute_url')
-    author = UserSerializer()
+class ArticleListSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
-    comments_count = serializers.IntegerField()
+    author = AuthorSerializer()
 
     class Meta:
         model = Article
-        fields = ('title', 'url', 'author', 'category', 'created', 'updated', 'comments_count')
+        fields = ['id', 'title', 'slug', 'image', 
+                  'created', 'category', 'author']
+
+    
 
 
-class FullArticleSerializer(ArticleSerializer):
-    comments = CommentSerializer(source='comment_set', many=True)
-
-    class Meta(ArticleSerializer.Meta):
-        fields = ArticleSerializer.Meta.fields + (
-            'content',
-            'comments',
-        )
+    

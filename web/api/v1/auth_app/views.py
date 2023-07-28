@@ -1,13 +1,21 @@
 from dj_rest_auth import views as auth_views
 from django.contrib.auth import logout as django_logout
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from django.core import signing
+from main.models import User
+from rest_framework.exceptions import Throttled
+from .services import PasswordResetConfirmHandler, PasswordResetHandler, SendEmailHandler, VerifyEmailHandler
+
 
 from . import serializers
 from .services import AuthAppService, full_logout
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from .utils import send_reset_password_mail
 
 
 class SignUpView(GenericAPIView):
@@ -47,12 +55,19 @@ class PasswordResetView(GenericAPIView):
 
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
+        print('Data from serializer', serializer)
         serializer.is_valid(raise_exception=True)
+        service = PasswordResetHandler(**serializer.data)
+        user = service.validate()
+        uid, token = service.uid_token_generate(user)
+        mail = SendEmailHandler(user, uid, token)
+        mail.send_reset_password_mail()
+
         return Response(
             {'detail': _('Password reset e-mail has been sent.')},
             status=status.HTTP_200_OK,
         )
-
+        
 
 class PasswordResetConfirmView(GenericAPIView):
     serializer_class = serializers.PasswordResetConfirmSerializer
@@ -61,10 +76,15 @@ class PasswordResetConfirmView(GenericAPIView):
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        service = PasswordResetConfirmHandler(**serializer.data)
+        user = service.validate()
+        service.set_password(user)
+        
         return Response(
             {'detail': _('Password has been reset with the new password.')},
             status=status.HTTP_200_OK,
         )
+      
 
 
 class VerifyEmailView(GenericAPIView):
@@ -74,6 +94,10 @@ class VerifyEmailView(GenericAPIView):
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        service = VerifyEmailHandler(**serializer.data)
+        user = service.validate()
+        service.activate_user(user)
+        
         return Response(
             {'detail': _('Email verified')},
             status=status.HTTP_200_OK,
