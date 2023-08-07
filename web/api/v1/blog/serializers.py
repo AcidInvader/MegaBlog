@@ -30,11 +30,6 @@ class ArticleDetailSerializer(ArticleSerializer):
 
     class Meta(ArticleSerializer.Meta):
         fields = ArticleSerializer.Meta.fields + ['content']
-    
-# class Comment(serializers.ModelSerializer):
-#     class Meta:
-#         model = Comment
-#         exclude = ['objects', ]
 
 
 
