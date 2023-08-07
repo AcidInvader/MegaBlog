@@ -252,7 +252,7 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'API description',
     'VERSION': '1.0.0',
     'SCHEMA_PATH_PREFIX': '/api/v[0-9]',
-    'SERVE_PERMISSIONS': ['rest_framework.permissions.IsAdminUser'],
+    'SERVE_PERMISSIONS': [], #'rest_framework.permissions.IsAdminUser'
     'SERVE_AUTHENTICATION': ['rest_framework.authentication.SessionAuthentication'],
     'SWAGGER_UI_SETTINGS': {
         'tryItOutEnabled': True,
