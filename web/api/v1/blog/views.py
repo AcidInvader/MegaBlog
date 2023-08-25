@@ -55,6 +55,8 @@ class ArticleCreateView(CreateAPIView):
     serializer_class = serializers.ArticleCreateSerializer
 
 class CategoryListView(ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = serializers.CategorySerializer
 
     def get_queryset(self) -> QuerySet[Category]:
         return Category.objects.all()

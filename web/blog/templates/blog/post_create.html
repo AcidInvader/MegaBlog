@@ -37,6 +37,7 @@
 {% endblock %}
 
 {% block jquery %}
+    $.getScript('{% static 'blog/js/category-list.js' %}');
     $.getScript('{% static 'blog/js/create-summernote.js' %}');
     $.getScript('{% static 'blog/js/create-article.js' %}');
 {% endblock %}
