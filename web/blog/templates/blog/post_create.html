@@ -1,0 +1,43 @@
+{% extends "blog/base.html" %}
+{% load static main %}
+
+{% block head %}
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+{% endblock head %}
+
+{% block container %}
+    <h3 id="summer">
+        Здесь будем создавать статью
+    </h3>
+    <div class="col-md-6 col-md-offset-3">
+        <form id="ArticleCreateForm" method="post" accept-charset="utf-8" class="form" role="form">
+            <legend>Create Article's Form</legend>
+            <input type="text" name="title" class="form-control input-lg" placeholder="Title Article"/>
+            <br/>
+            <input type="text" name="category" class="form-control input-lg" placeholder="Category"/>
+            <br/>
+            <input id="content" type="text" name="content" class="form-control input-lg" placeholder="contennt"/>
+            <br/>
+            <button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">Create the article</button>
+            <br/>
+            <p id='service-message' style='color:red; display:none'>Service message for responses handler</p>
+        </form>
+    </div>
+  {% block right_sidebar %}
+    {{ block.super }}
+  {% endblock right_sidebar %}
+
+{% endblock container %}
+
+{% block script %}
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+{% endblock %}
+
+{% block jquery %}
+    $.getScript('{% static 'blog/js/create-summernote.js' %}');
+    $.getScript('{% static 'blog/js/create-article.js' %}');
+{% endblock %}
+

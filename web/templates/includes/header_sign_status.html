@@ -4,13 +4,14 @@
 <form id="logoutForm" action="{% url 'api:v1:auth_app:logout' %}" method="post" >
     {% csrf_token %}
     <ul class="nav navbar-nav navbar-right">
-        <li><span class="navbar-brand">
+        <li><span class="navbar-brand user_name">
             {% if user.is_staff %}
-            <a target="_blank" style="text-decoration: none" href="{% url 'admin:index' %}"> {% trans 'Hello' %} {{ user.full_name }}!</a>
+            <a target="_blank" style="text-decoration: none" href="{% url 'admin:index' %}">{{ user.full_name }}</a>
             {% else %}
-                Hello {{ user.full_name }}!
+                {{ user.full_name }}
+                <div class="user_id" style="display:none">{{ user.id }}</div>
             {% endif %}
-            <a href="#"><i class="fas fa-user-circle"></i>{% trans 'Profile' %} </a>
+            <a href="{% url 'blog:post-create' %}"><i class="fas fa-user-circle"></i>{% trans 'Profile' %} </a>
         </span></li>
         <li><a href="#" id="logoutSubmit">{% trans 'Log off' %}</a></li>
     </ul>

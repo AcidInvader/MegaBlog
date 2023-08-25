@@ -1,9 +1,11 @@
-from rest_framework.generics import GenericAPIView, RetrieveAPIView, ListAPIView
+from rest_framework.generics import GenericAPIView, RetrieveAPIView, ListAPIView, CreateAPIView
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-from blog.models import Article
+from blog.models import Article, Category
 from django.db.models import QuerySet
 from . import serializers
 from main import pagination
+from rest_framework.permissions import IsAuthenticated
 
 class BlogListView(ListAPIView):
     permission_classes = ()
@@ -47,3 +49,12 @@ class SlugDetailView(RetrieveAPIView):
 
     def get_queryset(self) -> QuerySet[Article]:
         return Article.objects.all()
+    
+class ArticleCreateView(CreateAPIView):
+    permission_classes = () 
+    serializer_class = serializers.ArticleCreateSerializer
+
+class CategoryListView(ListAPIView):
+
+    def get_queryset(self) -> QuerySet[Category]:
+        return Category.objects.all()
