@@ -6,6 +6,7 @@ from main.models import User
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 
+
 User = get_user_model()
 
 class AuthorSerializer(serializers.ModelSerializer):
@@ -22,7 +23,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ['name', 'slug']
+        fields = ['id', 'name', 'slug']
     
 
 
@@ -41,14 +42,37 @@ class ArticleDetailSerializer(ArticleSerializer):
         fields = ArticleSerializer.Meta.fields + ['content']
 
 class ArticleCreateSerializer(serializers.ModelSerializer):
-    category = CategorySerializer()
     
     class Meta:
         model = Article
-        fields = ['title', 'slug', 'content', 'category']
+        fields = ['id', 'title','image', 'category', 'content']
 
-   
-    
+    def create(self, validated_data):
+        user = self.context['request'].user
+        validated_data['author'] = user
+        return super().create(validated_data)
+
+
+class CommentCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Comment
+        fields = ['id', 'content', 'parent', 'article']
+
+
+class CommentChildListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Comment
+        fields = ['id', 'content', 'article', 'user', 'updated', 'created']
+
+
+class ListCommentSerializer(serializers.ModelSerializer):   
+    children = CommentChildListSerializer(many=True)
+
+    class Meta:
+        model = Comment
+        fields = ['id', 'content', 'children', 'article', 'user', 'updated', 'created'] 
     
 
 

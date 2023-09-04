@@ -47,7 +47,7 @@ class Article(models.Model):
         return '{title} - {author}'.format(title=self.short_title, author=self.author)
 
     def save(self, **kwargs):
-        self.slug = slugify(self.title, allow_unicode=True)
+        self.slug = slugify(self.title)
         return super().save(**kwargs)
 
     def get_absolute_url(self):
@@ -60,10 +60,10 @@ class Article(models.Model):
 
 
 class Comment(models.Model):
-    author = models.EmailField()
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='comment_set', blank=True)
     content = models.TextField(max_length=200)
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comment_set')
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, related_name='children', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

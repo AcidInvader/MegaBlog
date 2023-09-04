@@ -11,8 +11,8 @@ router.register('posts', views.ArticleViewSet, basename='post')
 
 urlpatterns = [
     path('blog/', TemplateAPIView.as_view(template_name='blog/post_list.html'), name='blog-list'),
-    path('blog/article', TemplateAPIView.as_view(template_name='blog/post_detail.html'), name='post-detail'),
     path('blog/article/create', PostCreateView.as_view(template_name='blog/post_create.html'), name='post-create'),
+    path('blog/article', TemplateAPIView.as_view(template_name='blog/post_detail.html'), name='post-detail'),
 ]
 
 urlpatterns += router.urls
