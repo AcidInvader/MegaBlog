@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.conf import settings
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -50,3 +50,10 @@ class SetUserTimeZone(GenericAPIView):
             max_age=getattr(settings, 'TIMEZONE_COOKIE_AGE', 86400),
         )
         return response
+
+class PostCreateView(TemplateAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    '''
+        We need to handle the error is not authenticated
+    '''

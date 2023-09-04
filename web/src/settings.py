@@ -248,6 +248,7 @@ LOGGING = {
 }
 
 SPECTACULAR_SETTINGS = {
+    'COMPONENT_SPLIT_REQUEST': True,
     'TITLE': PROJECT_TITLE,
     'DESCRIPTION': 'API description',
     'VERSION': '1.0.0',

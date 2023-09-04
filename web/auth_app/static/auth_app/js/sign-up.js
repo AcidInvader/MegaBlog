@@ -13,7 +13,7 @@ function singUp(e) {
     dataType: "json",
     data: form.serialize(),
     success: succesHandler,
-    error: succsesHandler
+    error: errorHandler
   })
 }
 
@@ -25,7 +25,7 @@ function succesHandler(data) {
 }, 3000);
 }
 
-function succsesHandler(data) {
+function errorHandler(data) {
   console.log("error", data);
   let response = String(Object.values(data.responseJSON));
   $('#service-message').html(response).fadeIn();
