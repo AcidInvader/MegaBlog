@@ -3,7 +3,11 @@
   <h4><i class="fa fa-paper-plane-o"></i> Leave a Comment:</h4>
   <form role="form">
     <div class="form-group">
+      {% if user.is_authenticated %}
       <textarea class="form-control" rows="3"></textarea>
+      {% else %}
+      <p>Только полноправные пользователи могут оставлять комментарии. <a href="{% url 'auth_app:login' %}" >Войдите</a>, пожалуйста.</p>
+      {% endif %}
     </div>
     <button type="submit" class="btn btn-primary"><i class="fa fa-reply"></i> Submit</button>
   </form>
