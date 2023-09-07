@@ -10,7 +10,7 @@ function categoryList() {
         type: "GET",
         dataType: "json",
         success: successHandler,
-        error: errorHandler
+        error: errorHandler,
     })
 }
 

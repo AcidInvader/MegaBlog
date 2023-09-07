@@ -57,7 +57,12 @@ class CommentCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['id', 'content', 'parent', 'article']
+        fields = ['id', 'user', 'content', 'parent', 'article']
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        validated_data['user'] = user
+        return super().create(validated_data)
 
 
 class CommentChildListSerializer(serializers.ModelSerializer):
@@ -69,6 +74,7 @@ class CommentChildListSerializer(serializers.ModelSerializer):
 
 class ListCommentSerializer(serializers.ModelSerializer):   
     children = CommentChildListSerializer(many=True)
+    user = AuthorSerializer()
 
     class Meta:
         model = Comment
