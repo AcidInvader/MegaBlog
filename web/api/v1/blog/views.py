@@ -78,7 +78,7 @@ class CommentCreateView(CreateAPIView):
 
 
 class CommentListView(ListAPIView):
-    serializer_class = serializers.ListCommentSerializer
+    serializer_class = serializers.CommentListSerializer
     pagination_class = pagination.BasePageNumberPagination
 
     def get_queryset(self):

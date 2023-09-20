@@ -72,7 +72,7 @@ class CommentChildListSerializer(serializers.ModelSerializer):
         fields = ['id', 'content', 'article', 'user', 'updated', 'created']
 
 
-class ListCommentSerializer(serializers.ModelSerializer):   
+class CommentListSerializer(serializers.ModelSerializer):   
     children = CommentChildListSerializer(many=True)
     user = AuthorSerializer()
 
