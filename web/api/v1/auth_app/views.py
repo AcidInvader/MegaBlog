@@ -16,6 +16,7 @@ from . import serializers
 from .services import AuthAppService, full_logout
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from .utils import send_reset_password_mail
+from .tasks import send_reset_password_mail_task
 
 
 class SignUpView(GenericAPIView):
@@ -60,8 +61,7 @@ class PasswordResetView(GenericAPIView):
         service = PasswordResetHandler(**serializer.data)
         user = service.validate()
         uid, token = service.uid_token_generate(user)
-        mail = SendEmailHandler(user, uid, token)
-        mail.send_reset_password_mail()
+        send_reset_password_mail_task.delay(user, uid, token)
 
         return Response(
             {'detail': _('Password reset e-mail has been sent.')},

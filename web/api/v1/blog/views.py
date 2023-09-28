@@ -26,8 +26,6 @@ class BlogListView(ListAPIView):
     #     queryset = self.get_queryset()
     #     paginator = self.paginate_queryset(queryset)
     #     serializer = self.get_serializer(paginator, many=True)
-
-        
     #     return self.get_paginated_response(serializer.data)
     
 
