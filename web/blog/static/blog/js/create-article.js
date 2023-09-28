@@ -9,10 +9,7 @@ function createArticle(e) {
     console.log("start api request...", form)
     let formData = new FormData(this);
     formData.append("content", $(".note-editable").text());
-    // for (let item of formData) {
-    //     console.log(item[0], item[1])
-    // };
-
+    
     $.ajax({
         url: "/api/v1/article/blog/create-article/",
         type: "POST",

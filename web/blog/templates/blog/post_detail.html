@@ -18,7 +18,7 @@
       <a href=""><span class="badge badge-info">HTML</span></a></p>
 
     <hr>
-    <img src="#" class="img-responsive">
+    <img src="#" class=".img-responsive">
     <hr>
     <p class="lead" id="content">Welcome to Bootstrap Blog Template! This is a blog template example, built with Bootstrap.
       Contains "tools" that would be needed in a post.
@@ -63,8 +63,7 @@
 </div>
 {% endblock container %}
 
-
 {% block jquery %}
 $.getScript('{% static 'auth_app/js/query-params.js' %}');
-$.getScript('{% static 'blog/js/detail.js' %}');
+$.getScript('{% static 'blog/js/detail-article.js' %}');
 {% endblock %}

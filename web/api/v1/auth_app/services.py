@@ -20,7 +20,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from api.email_services import BaseEmailHandler
 
 from main.decorators import except_shell
-from .utils import send_verify_mail
+from .tasks import send_verify_mail_task
 from django.core.mail import send_mail
 from django.template import loader
 
@@ -81,11 +81,11 @@ class AuthAppService:
         user = User.objects.create_user(
             first_name=data.first_name, 
             last_name=data.last_name, 
-            password=data.password_1, 
+            password=data.password_1,
             email=data.email, 
             is_active=False
         )
-        send_verify_mail(user)
+        send_verify_mail_task.delay(user.id)
         print(f'Method create_user {data=}')
     
 
@@ -158,7 +158,7 @@ class PasswordResetHandler:
         token = PasswordResetTokenGenerator().make_token(user)
         return uid, token
 
-    def validate(self):
+    def validate(self) -> User:
         user = User.objects.filter(email=self.email).first()
         if user:
             return user

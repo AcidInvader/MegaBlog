@@ -1,22 +1,47 @@
 <!-- the comment box -->
 <div class="well">
   <h4><i class="fa fa-paper-plane-o"></i> Leave a Comment:</h4>
-  <form role="form">
+  <form id='comment-form' role="form">
     <div class="form-group">
-      <textarea class="form-control" rows="3"></textarea>
+      {% if user.is_authenticated %}
+      <textarea id="content-comment" class="form-control" rows="3"></textarea>
+      {% else %}
+      <p>Только полноправные пользователи могут оставлять комментарии. 
+        <a href="{% url 'auth_app:login' %}" >Войдите</a>, пожалуйста.</p>
+      {% endif %}
     </div>
     <button type="submit" class="btn btn-primary"><i class="fa fa-reply"></i> Submit</button>
   </form>
 </div>
 <hr>
 
-<!-- the comments -->
-<h3><i class="fa fa-comment"></i> User One says:
-  <small> 9:41 PM on August 24, 2014</small>
-</h3>
-<p>Excellent post! Thank You the great article, it was useful!</p>
+<div id="disqus_thread"></div>
 
-<h3><i class="fa fa-comment"></i> User Two says:
-  <small> 9:47 PM on August 24, 2014</small>
-</h3>
-<p>Excellent post! Thank You the great article, it was useful!</p>
+<!-- the comments -->
+<div id="container">
+  <div class="comment">
+    <h3><i id="user" class="fa fa-comment"></i>
+      <small id="created-at"></small>
+    </h3>
+    <p id="comment-content"></p>
+    <button type="button" class="btn btn-primary chi-comm-button"><i class="fa fa-reply"></i>Answer</button>
+    <form class="form-child-comment" style="display:none;">
+      <input type="text" name="content" class="form-control input-lg chi-comm-field" style="margin-top:5px; margin-left:30px;" placeholder="Type you'r answer"/>
+      <button type="submit" class="btn btn-primary chi-answer-button" style="margin-top:5px; margin-left:690px;"><i class="fa fa-reply"></i>Answer</button>
+    </form>
+    <!-- Child comment -->
+  </div>
+</div>
+  <!-- Child comment -->
+<div>
+  <div class="child-comment" style="margin-left:50px">
+    <h3><i id="user" class="fa"></i>
+      <small id="created-at"></small>
+    </h3>
+    <hr style="margin-top:2px">
+    <p id="comment-content"></p>
+  </div>
+</div>
+
+
+

@@ -26,8 +26,6 @@ class BlogListView(ListAPIView):
     #     queryset = self.get_queryset()
     #     paginator = self.paginate_queryset(queryset)
     #     serializer = self.get_serializer(paginator, many=True)
-
-        
     #     return self.get_paginated_response(serializer.data)
     
 
@@ -78,7 +76,7 @@ class CommentCreateView(CreateAPIView):
 
 
 class CommentListView(ListAPIView):
-    serializer_class = serializers.ListCommentSerializer
+    serializer_class = serializers.CommentListSerializer
     pagination_class = pagination.BasePageNumberPagination
 
     def get_queryset(self):
