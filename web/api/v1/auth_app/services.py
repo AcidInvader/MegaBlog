@@ -180,24 +180,3 @@ class VerifyEmailHandler:
     def activate_user(self, user):
         user.is_active = True
         user.save(update_fields=['is_active'])
-        
-
-
-class SendEmailHandler:
-    def __init__(self, user, uid: str, token: str):
-        self.user = user
-        self.uid = uid
-        self.token = token
-
-    def send_reset_password_mail(self):
-        subject = "Reset password mail"
-        sender = "hello@localhost"
-        recipe = [self.user.email]
-        context = {
-        'reset_password_url': f"http://127.0.0.1:8888/password-recovery/?uid={self.uid}&token={self.token}",
-        'full_name': self.user.first_name,
-        }
-        html_template = loader.render_to_string('email/reset-password.html', context)
-        send_mail(subject, "", sender, recipe, html_message=html_template)
-
-
