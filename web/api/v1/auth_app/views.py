@@ -9,13 +9,11 @@ from rest_framework.response import Response
 from django.core import signing
 from main.models import User
 from rest_framework.exceptions import Throttled
-from .services import PasswordResetConfirmHandler, PasswordResetHandler, SendEmailHandler, VerifyEmailHandler
+from .services import PasswordResetConfirmHandler, PasswordResetHandler, VerifyEmailHandler
 
 
 from . import serializers
 from .services import AuthAppService, full_logout
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from .utils import send_reset_password_mail
 from .tasks import send_reset_password_mail_task
 
 
@@ -85,7 +83,6 @@ class PasswordResetConfirmView(GenericAPIView):
             status=status.HTTP_200_OK,
         )
       
-
 
 class VerifyEmailView(GenericAPIView):
     serializer_class = serializers.VerifyEmailSerializer

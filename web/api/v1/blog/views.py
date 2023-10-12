@@ -8,7 +8,7 @@ from main import pagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from drf_spectacular.utils import extend_schema
-from api.v1.auth_app import utils
+from .tasks import send_article_admin_mail_task, send_article_created_mail_task
 
 
 class BlogListView(ListAPIView):
@@ -60,8 +60,8 @@ class ArticleCreateView(CreateAPIView):
         serializer.save()
         article_id = serializer.data['id']
         user = self.request.user
-        utils.send_article_admin_mail(article_id)
-        utils.send_article_created_mail(user)
+        send_article_admin_mail_task.delay(article_id)
+        send_article_created_mail_task.delay(user.id)
     
 
 class CategoryListView(ListAPIView):

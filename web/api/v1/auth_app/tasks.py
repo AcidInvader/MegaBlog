@@ -1,11 +1,9 @@
 from celery import shared_task
-from django.core.mail import send_mail
-from django.template import loader
 from src import settings
 from main.models import UserType
 from django.contrib.auth import get_user_model
-from .utils import send_verify_mail
-from .services import SendEmailHandler
+from .utils import send_verify_mail, SendEmailHandler
+
 
 User: UserType = get_user_model()
 
@@ -21,5 +19,3 @@ def send_reset_password_mail_task(user, uid, token):
     mail = SendEmailHandler(user, uid, token)
 
     return mail.send_reset_password_mail()
-
-    
