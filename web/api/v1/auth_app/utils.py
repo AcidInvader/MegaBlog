@@ -1,6 +1,7 @@
 from main.models import UserType
 from django.core.mail import send_mail
 from django.template import loader
+from django.utils.html import strip_tags
 
 
 
@@ -21,7 +22,7 @@ def send_verify_mail(user: UserType):
         "full_name": user.full_name,
     }
     html_template = loader.render_to_string("email/sign-up.html", context)
-    send_mail(subject, "", sender, recipe, html_message=html_template)
+    send_mail(subject, strip_tags(html_template), sender, recipe, html_message=html_template)
 
 def get_activate_url(user: UserType):
     return f"http://127.0.0.1:8888/sign-up/verify?key={user.confirmation_key}"
