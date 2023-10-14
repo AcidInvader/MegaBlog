@@ -11,7 +11,8 @@
                 {{ user.full_name }}
                 <div class="user_id" style="display:none">{{ user.id }}</div>
             {% endif %}
-            <a href="{% url 'blog:post-create' %}"><i class="fas fa-user-circle"></i>{% trans 'Profile' %} </a>
+            <a href="{% url 'blog:post-create' %}"><i class="fas fa-user-circle"></i>{% trans 'Create Article' %}</a>
+            <a href="{% url 'profile_app:profile_page' %}"><i class="fas fa-user-circle"></i>{% trans 'Profile' %}</a>
         </span></li>
         <li><a href="#" id="logoutSubmit">{% trans 'Log off' %}</a></li>
     </ul>
