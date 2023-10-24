@@ -2,8 +2,8 @@
 <div class="col-lg-4">
   {% if user.is_authenticated %}
   <div class="well">
-    <h4><i class="fa"></i>Suggest a new article</h4>
-        <a href="{% url 'blog:post-create' %}" class="btn btn-primary btn-large">Lets do it...</a>
+    <h2><i class="fa"></i>Suggest a new article</h2>
+        <h3><a href="{% url 'blog:post-create' %}" class="label btn-primary btn-large">Lets do it...</a></h3>
   </div>
   {% endif %}
   <div class="well">

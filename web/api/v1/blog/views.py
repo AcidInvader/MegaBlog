@@ -5,14 +5,14 @@ from blog.models import Article, Category, ArticleStatus, Comment
 from django.db.models import QuerySet
 from . import serializers
 from main import pagination
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser
 from drf_spectacular.utils import extend_schema
 from .tasks import send_article_admin_mail_task, send_article_created_mail_task
 
 
 class BlogListView(ListAPIView):
-    permission_classes = ()
+    permission_classes = (AllowAny,)
     serializer_class = serializers.ArticleSerializer
     pagination_class = pagination.BasePageNumberPagination
     
@@ -30,7 +30,7 @@ class BlogListView(ListAPIView):
     
 
 class BlogDetailView(RetrieveAPIView):
-    permission_classes = ()
+    permission_classes = (AllowAny,)
     serializer_class = serializers.ArticleDetailSerializer
 
     def get_queryset(self) -> QuerySet[Article]:
@@ -76,6 +76,7 @@ class CommentCreateView(CreateAPIView):
 
 
 class CommentListView(ListAPIView):
+    permission_classes = (AllowAny,)
     serializer_class = serializers.CommentListSerializer
     pagination_class = pagination.BasePageNumberPagination
 

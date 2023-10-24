@@ -14,7 +14,7 @@ $(function () {
 function successHandler(data) {
     console.log('article_detail...', data);
     $('h1').html(data.title);
-    $('.fa-user').html(data.author.full_name);
+    $('.user').html(data.author.full_name);
     $('.fa-calendar').html(data.updated);
     $('.img-responsive').attr('src', `${data.image}`);
     $('#content').html(data.content);

@@ -3,7 +3,6 @@ from rest_framework.reverse import reverse
 from django.test import Client, override_settings
 from django.core import mail
 from django.contrib.auth import get_user_model
-from .fixtures import sign_up
 import re
 pytestmark = [pytest.mark.django_db]
 
@@ -148,9 +147,8 @@ def test_signup_flow(client: Client):
     assert user.is_active is True
 
 
-def test_login(client: Client, sign_up):
+def test_login(client: Client, user):
     url = reverse("api:v1:auth_app:sign-in")
-    user = sign_up
     data = {
         "email": user.email,
         "password": "Stasya123",

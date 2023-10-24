@@ -5,6 +5,7 @@ from main.models import User
 from django.db.models import QuerySet
 from . import serializers
 from main import pagination
+from rest_framework.permissions import AllowAny
 
 
 User = get_user_model()
@@ -17,5 +18,19 @@ class UserListView(ListAPIView):
 
     def get_queryset(self) -> QuerySet[User]:
         return User.objects.all()
+    
+class CurentUserView(GenericAPIView):
+    serializer_class = serializers.CurentUserSerializer
+    
+    def get(self, request):
+        user = request.user
+        serializer = self.get_serializer(user)
+
+        return Response(serializer.data)
+
+    
+
+
+
 
     
