@@ -18,7 +18,7 @@ class CurentUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'full_name', 'email', 'article_count']
+        fields = ["id", "first_name", "last_name", "full_name","email", "avatar", "article_count"]
     
     def get_article_count(self, obj: User) -> int:
         queryset = User.objects.filter(id=obj.id)
@@ -31,4 +31,12 @@ class CurentUserSerializer(serializers.ModelSerializer):
     #     queryset = queryset.annotate(comment_count=Count("comment_set"))
 
     #     return queryset[0].comment_count
+
+    def update(self, instance, validated_data):
+        instance.first_name = validated_data.get("first_name", instance.first_name)
+        instance.last_name = validated_data.get("last_name", instance.last_name)
+        instance.avatar = validated_data.get("avatar", instance.avatar)
+        instance.save()
+        
+        return instance
     

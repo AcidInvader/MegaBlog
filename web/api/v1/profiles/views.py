@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from rest_framework.generics import GenericAPIView, ListAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView, UpdateAPIView
 from rest_framework.response import Response
 from main.models import User
 from django.db.models import QuerySet
@@ -27,6 +27,16 @@ class CurentUserView(GenericAPIView):
         serializer = self.get_serializer(user)
 
         return Response(serializer.data)
+    
+
+class UpdateUserView(UpdateAPIView):
+    serializer_class = serializers.CurentUserSerializer
+    queryset = User.objects.all()
+
+    def patch(self, request, *args, **kwargs):
+        print(f"{kwargs=}")
+        return super().patch(request, *args, **kwargs)
+
 
     
 
