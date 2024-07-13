@@ -7,7 +7,7 @@ app_name = "profiles"
 
 urlpatterns = [
     path("users_list/", views.UserListView.as_view(), name="user-list"),
-    path("me/", views.CurentUserView.as_view(), name="user-list"),
+    path("me/", views.CurrentUserView.as_view(), name="user-list"),
     path("me/<int:pk>/", views.UpdateUserView.as_view(), name="user-update"),
 ]
 

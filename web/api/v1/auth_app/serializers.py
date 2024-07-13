@@ -7,10 +7,10 @@ from django.utils.timezone import now
 
 from api.v1.auth_app.services import AuthAppService
 
-from drf_recaptcha.fields import ReCaptchaV2Field, ReCaptchaV3Field
-from captcha.widgets import ReCaptchaV2Checkbox
-from django.utils.http import urlsafe_base64_decode
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
+# from drf_recaptcha.fields import ReCaptchaV2Field, ReCaptchaV3Field
+# from captcha.widgets import ReCaptchaV2Checkbox
+# from django.utils.http import urlsafe_base64_decode
+# from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 
 User = get_user_model()
@@ -33,7 +33,7 @@ class UserSignUpSerializer(serializers.Serializer):
     password_1 = serializers.CharField(write_only=True, min_length=8)
     password_2 = serializers.CharField(write_only=True, min_length=8)
     # captcha = ReCaptchaV2Field()
-    
+
 
     def validate_first_name(self, first_name: str):
         print("first_name", first_name)
@@ -94,7 +94,7 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 
     def validate_password_1(self, password: str):
         validate_password(password)
-        
+
         return password
 
 

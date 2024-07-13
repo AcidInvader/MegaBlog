@@ -6,6 +6,12 @@ redis~=4.5
 djangorestframework~=3.14
 drf-spectacular~=0.26
 celery~=5.2
+drf_writable_nested==0.6.4
+pytz==2022.4
+drf_recaptcha
+captcha
+pyptz
+
 
 ### Optional dependencies ###
 

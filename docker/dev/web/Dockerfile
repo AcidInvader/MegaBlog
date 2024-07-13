@@ -1,5 +1,6 @@
 FROM python:3.11-alpine3.15
 
+# удаление байт кода после компеляции
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     TZ=Europe/Kiev \

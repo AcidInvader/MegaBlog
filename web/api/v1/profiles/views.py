@@ -6,6 +6,7 @@ from django.db.models import QuerySet
 from . import serializers
 from main import pagination
 from rest_framework.permissions import AllowAny
+from django.db.models import Count
 
 
 User = get_user_model()
@@ -19,18 +20,22 @@ class UserListView(ListAPIView):
     def get_queryset(self) -> QuerySet[User]:
         return User.objects.all()
     
-class CurentUserView(GenericAPIView):
-    serializer_class = serializers.CurentUserSerializer
+class CurrentUserView(GenericAPIView):
+    serializer_class = serializers.CurrentUserSerializer
+
+    def get_object(self):
+        return User.objects.annotate(article_count=Count("author_of_article")).get(id=self.request.user.id)
     
     def get(self, request):
-        user = request.user
-        serializer = self.get_serializer(user)
+        serializer = self.get_serializer(self.get_object())
 
         return Response(serializer.data)
     
 
+    
+
 class UpdateUserView(UpdateAPIView):
-    serializer_class = serializers.CurentUserSerializer
+    serializer_class = serializers.CurrentUserSerializer
     queryset = User.objects.all()
 
     def patch(self, request, *args, **kwargs):

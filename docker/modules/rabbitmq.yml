@@ -8,8 +8,8 @@ services:
       - "15672:15672"
     volumes:
       - rabbitmq:/var/lib/rabbitmq
-    env_file:
-      - ./rabbitmq/.env
+    # env_file:
+    #   - ./rabbitmq/.env
     networks:
       - queue_network
     restart: always
